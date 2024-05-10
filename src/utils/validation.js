@@ -1,42 +1,51 @@
-import { body } from "express-validator";
+const { body } = require("express-validator");
 
-export const addemployeeValidation = [
+const addemployeeValidation = [
     body("name", "Task name is required").not().isEmpty(),
     body("phone", "Phone number must be 10 digits").isLength({ min: 10, max: 10 }).isNumeric().matches(/^(078|073|079|072)\d{7}$/),
     body("idCard", "ID card number must be 16 characters").isLength({ min: 16, max: 16 }).isAlphanumeric()
 ];
 
-export const forgotPasswordValidation = [
+const forgotPasswordValidation = [
     body("email", "Email must be provided").not().isEmpty(),
-
 ];
 
-export const resetPasswordValidation = [
+const resetPasswordValidation = [
     body("password", "Password is required").not().isEmpty(),
-    body("password", "Password should contain atleast 8 characters, uppercase and lower case letters, numbers, and symbols").isStrongPassword()
+    body("password", "Password should contain at least 8 characters, uppercase and lowercase letters, numbers, and symbols").isStrongPassword()
 ];
 
-export const otpValidation = [
+const otpValidation = [
     body("otp", "Otp must be provided").not().isEmpty(),
 ];
 
-export const testValidations = [
+const testValidations = [
     body("name", "Task name is required").not().isEmpty(),
     body("email", "Email is required").not().isEmpty(),
     body("email", "Invalid email").isEmail(),
 ];
 
-export const registerValidations = [
+const registerValidations = [
     body("userName", "Last name is required").not().isEmpty(),
     body("email", "Email is required").not().isEmpty(),
     body("email", "Invalid email").isEmail(),
     body("password", "Password is required").not().isEmpty(),
-    body("password", "Password should contain atleast 8 characters, uppercase and lower case letters, numbers, and symbols").isStrongPassword()
+    body("password", "Password should contain at least 8 characters, uppercase and lowercase letters, numbers, and symbols").isStrongPassword()
 ];
 
-export const loginValidations = [
+const loginValidations = [
     body("email", "Email is required").not().isEmpty(),
     body("email", "Invalid email").isEmail(),
     body("password", "Password is required").not().isEmpty(),
     body("password", "Invalid password").isStrongPassword()
 ];
+
+module.exports = {
+    addemployeeValidation,
+    forgotPasswordValidation,
+    resetPasswordValidation,
+    otpValidation,
+    testValidations,
+    registerValidations,
+    loginValidations
+};

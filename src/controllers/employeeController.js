@@ -1,15 +1,25 @@
 const Employee = require ('../models/employeeModel.js')
 const asyncWrapper = require ('../middlewares/async.js');
-import { validationResult } from 'express-validator';
+const { validationResult } = require('express-validator');
 
-export const employeeController = {
+const {BadRequestError}= require('../error/BadRequestError.js')
+const {NotFoundError}= require('../error/NotFoundError.js')
+
+const employeeController = {
   addEmployee: asyncWrapper(async (req, res , next) => {
     const errors = validationResult(req);
       if (!errors.isEmpty()) {
           next(new BadRequestError(errors.array()[0].msg));
+      }     let profilePicture = '';
+      if (req.file) {
+          profilePicture = req.file.path;
       }
-      const newEmployee = await Employee.create(req.body);
-      res.status(201).json({ success: true, data: newEmployee });
+  
+      const newEmployeeData = {
+          ...req.body,
+          profilePicture, // Set profile picture if available
+      };
+      res.status(201).json({ success: true, data: newEmployeeData });
   }),
 
   getEmployee:asyncWrapper(async (req, res , next) => {
@@ -36,9 +46,16 @@ export const employeeController = {
       const updateemployee = await Employee.findOneAndUpdate(
         { _id: req.params.id },
         {
-         name: req.body.name,
-          contact: req.body.contact,
-          medicalhistory: req.body.medicalHistory
+         firstName: req.body.firstName,
+         laststName: req.body.laststName,
+         email: req.body.email,
+         phone: req.body.phone,
+         idCard: req.body.idCard,
+         job: req.body.job,
+         cv: req.body.cv,
+         experience: req.body.experience,
+         min_salary: req.body.min_salary,
+         profilePicture: req.file.path
         },
         { new: true }
       );
@@ -62,4 +79,4 @@ export const employeeController = {
       });
   }),
  };
-module.exports = employeeController;
+module.exports=employeeController;

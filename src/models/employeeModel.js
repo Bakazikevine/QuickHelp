@@ -25,6 +25,10 @@ const EmployeeSchema = new Schema({
         type: String,
         required: true
     },
+    job: {
+        type: String,
+        required: true
+    },
     cv: {
         type: String,
         required: true
@@ -37,7 +41,12 @@ const EmployeeSchema = new Schema({
         type: String,
         required: true
     },
-  
+    profilePicture: {
+        type: String,
+        required: true
+    },
+},
+{
     timestamps: true,
 });
 

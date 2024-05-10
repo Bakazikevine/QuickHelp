@@ -4,8 +4,10 @@ const express = require('express');
 const app = express()
 const mongoose = require ('mongoose');
 const configuration = require('../src/config/index.js')
+const employeeroute=require('./routes/employeeRoute.js');
 
 app.use(express.json());
+app.use('/employee',employeeroute)
 
 mongoose.connect(configuration.mongoURI)
 .then(() => {
