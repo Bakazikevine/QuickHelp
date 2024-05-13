@@ -1,9 +1,9 @@
 const multer = require('multer');
-const EmployeeProfile = require('./EmployeeProfileModel');
+const EmployeeProfile = require('../models/employeeModel');
 const {
     uploadFile,
     updateFileDetails
-} = require('./middlewares');
+} = require('../Middlewares/uploadMiddles');
 
 // Multer storage configuration
 const storage = multer.diskStorage({
