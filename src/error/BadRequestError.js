@@ -1,10 +1,10 @@
-const CustomError=require("./CustomError.js");
+import CustomError from "./CustomError.js";
 
 /**
  * Custom error class for handling bad request errors.
  * @extends {CustomError} - Extends the CustomError class.
  */
-module.exports=class BadRequestError extends CustomError {
+export class BadRequestError extends CustomError {
     /**
      * Constructor for the BadRequestError class.
      * @param {string} message - The error message to be displayed.

@@ -8,28 +8,21 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:[true,'Email is required'],
         unique:true,
+        match: [/^\S+@\S+\.\S+$/, 'Email is invalid']
+
     },
     password:{
         type:String,
-        required:[true,'Password is required']
-       
+        required:[true,'Password is required'],
+        minlength: 8,
+        maxlength: 1024
     },
-    resetPasswordToken:{type:String},
-    resetPasswordExpires:{type:Date,},
     Role:{
         type:String,
         required:false,
         default:"Employee",
         enum:['Admin','Employee']
-    },
-    isVerified: {
-        type: Boolean,
-        default: false  
-      },
-    otp: {
-        type: String,
-        required: true
-      },
+    }
     
 },
 
