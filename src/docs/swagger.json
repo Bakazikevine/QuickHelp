@@ -1,0 +1,230 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "QUICK HELP API",
+      "description": "API documentation for Quick Help",
+      "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "schemes": ["http", "https"],
+    "paths": {
+      "/auth/register": {
+        "post": {
+          "summary": "REGISTER",
+          "description": "Register to get started",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/RegisterData"
+              },
+              "required": true,
+              "description": "Register object"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered successfully"
+            }
+          }
+        }
+      },
+      "/auth/verify": {
+        "post": {
+          "summary": "VERIFY ACCOUNT",
+          "description": "Verify user account",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/VerifyData"
+              },
+              "required": true,
+              "description": "Verification object"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Account verified successfully"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "summary": "LOGIN",
+          "description": "Login with user credentials",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/LoginData"
+              },
+              "required": true,
+              "description": "Login object"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Login successful"
+            },
+            "401": {
+              "description": "Unauthorized, invalid credentials"
+            }
+          }
+        }
+      },
+      "/auth/request": {
+        "post": {
+          "summary": "REQUEST RESET PASSWORD",
+          "description": "Request password reset",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/ResetPasswordRequestData"
+              },
+              "required": true,
+              "description": "Reset password request object"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset email sent successfully"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/auth/reset": {
+        "post": {
+          "summary": "RESET PASSWORD",
+          "description": "Reset user password",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/ResetPasswordData"
+              },
+              "required": true,
+              "description": "Reset password object"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset successfully"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/auth/logout": {
+        "post": {
+          "summary": "LOGOUT",
+          "description": "Logout user",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "description": "Bearer token",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Logout successful"
+            },
+            "401": {
+              "description": "Unauthorized, invalid token"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "RegisterData": {
+        "type": "object",
+        "properties": {
+            "userName": {
+                "type": "string"
+              },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["userName", "email","password"]
+      },
+      "VerifyData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "otp": {
+            "type": "string"
+          }
+        },
+        "required": ["email","token"]
+      },
+      "LoginData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "ResetPasswordRequestData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": ["email"]
+      },
+      "ResetPasswordData": {
+        "type": "object",
+        "properties": {
+          "newPassword": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "newPassword"]
+      }
+    }
+  }

@@ -4,7 +4,7 @@
  * @constructor
  * @param {string} message - The error message to be displayed when the error is thrown.
  */
-export default class CustomError extends Error {
+module.exports= class CustomError extends Error {
     /**
      * Constructor for CustomError.
      * @param {string} message - The error message to be displayed when the error is thrown.
