@@ -8,7 +8,7 @@ const cors=require('cors');
 const configuration = require('../src/config/index.js')
 //middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors())
 //routes
 app.use('/api/v1/auth',userRoutes)
 
