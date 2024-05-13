@@ -1,65 +1,90 @@
-const Employee = require ('../models/employeeModel.js')
-const asyncWrapper = require ('../middlewares/async.js');
-import { validationResult } from 'express-validator';
+const multer = require('multer');
+const EmployeeProfile = require('./EmployeeProfileModel');
+const {
+    uploadFile,
+    updateFileDetails
+} = require('./middlewares');
 
-export const employeeController = {
-  addEmployee: asyncWrapper(async (req, res , next) => {
-    const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-          next(new BadRequestError(errors.array()[0].msg));
-      }
-      const newEmployee = await Employee.create(req.body);
-      res.status(201).json({ success: true, data: newEmployee });
-  }),
+// Multer storage configuration
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // Set the destination folder where files will be uploaded
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        // Generate a unique filename for the uploaded file
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
 
-  getEmployee:asyncWrapper(async (req, res , next) => {
-      const listEmployee = await Employee.find();
-      res.status(201).json({
-        message: "List of All Employees",
-        data: listEmployee,
-      });
-  }),
+// Multer upload instance
+const upload = multer({ storage: storage });
 
-  getEmployeeById: asyncWrapper( async (req, res, next) => {
-      const employeeById = await Employee.findById(req.params.id);
-      if (!employeeById) {
-        return next(`Employee not found`);
-        next(error);
-      }
-      res.status(201).json({
-        message: "Get Employee",
-        data: employeeById,
-      });
-  }),
+// Middleware to create an employee profile
+const createEmployeeProfile = async (req, res, next) => {
+    try {
+        const {
+            firstName,
+            lastName,
+            email,
+            jobTitles,
+            responsibilities,
+            relevantSkills,
+            achievements,
+            experience,
+            certifications,
+            academicBackground,
+            professionalBackground,
+            availability,
+            salaryRange,
+            portfolio
+        } = req.body;
 
-  updateEmployee: asyncWrapper(async (req, res , next) => {
-      const updateemployee = await Employee.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-         name: req.body.name,
-          contact: req.body.contact,
-          medicalhistory: req.body.medicalHistory
-        },
-        { new: true }
-      );
-      if (!updateEmployee) {
-        return next(new NotFoundError(`Employee not found`));
-    } 
-      res.status(201).json({
-        message: "Employee updated",
-        data: updateemployee,
-      });
-  }),
+        // Check if all required fields are provided
+        if (!firstName || !lastName || !email || !jobTitles || !responsibilities || !relevantSkills) {
+            return res.status(400).send('All required fields must be provided.');
+        }
 
-  deleteEmployee: asyncWrapper( async (req, res , next ) => {
-      const deleteemployee = await Employee.deleteOne({
-        _id: req.params.id,
-      });
-  
-      res.status(201).json({
-        message: "Employee deleted",
-        data: deleteemployee,
-      });
-  }),
- };
-module.exports = employeeController;
+        // Create the employee profile
+        const employeeProfile = new EmployeeProfile({
+            firstName,
+            lastName,
+            email,
+            jobTitles,
+            responsibilities,
+            relevantSkills,
+            achievements,
+            experience,
+            certifications,
+            academicBackground,
+            professionalBackground,
+            availability,
+            salaryRange,
+            portfolio
+        });
+
+        // Check and handle file uploads
+        if (req.file) {
+            // Update file details for profile picture
+            await updateFileDetails('profilePicture')(req, res, next);
+            // Update file details for national ID card
+            await updateFileDetails('nationalIdCard')(req, res, next);
+            // Update file details for CV
+            await updateFileDetails('cv')(req, res, next);
+        }
+
+        // Save the employee profile to the database
+        await employeeProfile.save();
+        
+        res.status(201).send('Employee profile created successfully.');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Error creating employee profile.');
+    }
+};
+
+module.exports = {
+    upload,
+    uploadFile,
+    createEmployeeProfile
+};
