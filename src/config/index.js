@@ -1,6 +1,8 @@
 const configs = {
-    port: process.env.PORT || 3000,
-    mongoURI: process.env.MONGODB_URI ||"mongodb+srv://queencarine:KKiQlC8UBbJ1ho9C@cluster0.bocqitm.mongodb.net/",
+    port: process.env.PORT || 6000,
+    mongoURI: process.env.MONGODB_URI ||'mongodb://localhost:27017/Giggle',
     JWT_SECRET: process.env.SECRET ||'mysecret'
 }
+
+
 module.exports= configs;
