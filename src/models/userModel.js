@@ -17,6 +17,21 @@ const userSchema=new mongoose.Schema({
         minlength: 8,
         maxlength: 1024
     },
+    resetPasswordToken: {
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: null
+    },
+    isVerified: {
+        type: Boolean,
+        default: false 
+    },
+    otp: {
+        type: String
+    },
     Role:{
         type:String,
         required:false,
