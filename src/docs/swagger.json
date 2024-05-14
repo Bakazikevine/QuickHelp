@@ -1,0 +1,216 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Quick Help API",
+      "description": "API documentation for Quick Help",
+      "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "schemes": ["http", "https"],
+    "paths": {
+      "/auth/register": {
+        "post": {
+          "summary": "User Registration",
+          "description": "Register a new user",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/RegisterData"
+              },
+              "required": true,
+              "description": "User registration details"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User registered successfully"
+            }
+          }
+        }
+      },
+      "/auth/verify": {
+        "post": {
+          "summary": "Verify Account",
+          "description": "Verify user account",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/VerifyAccountData"
+              },
+              "required": true,
+              "description": "User email and OTP"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Account verified successfully"
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "summary": "User Login",
+          "description": "Authenticate user login",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/LoginData"
+              },
+              "required": true,
+              "description": "User email and password"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User logged in successfully"
+            }
+          }
+        }
+      },
+      "/auth/request": {
+        "post": {
+          "summary": "Request Reset Password",
+          "description": "Request password reset",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/RequestResetPasswordData"
+              },
+              "required": true,
+              "description": "User email"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset request successful"
+            }
+          }
+        }
+      },
+      "/auth/reset": {
+        "post": {
+          "summary": "Reset Password",
+          "description": "Reset user password",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "schema": {
+                "$ref": "#/definitions/ResetPasswordData"
+              },
+              "required": true,
+              "description": "Reset token and new password"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password reset successful"
+            }
+          }
+        }
+      },
+      "/auth/logout": {
+        "post": {
+          "summary": "User Logout",
+          "description": "Logout user",
+          "tags": ["Authentication"],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "token",
+              "type": "string",
+              "required": true,
+              "description": "Authentication token received during login"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User logged out successfully"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "RegisterData": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "example": "john_doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password@123"
+          }
+        }
+      },
+      "VerifyAccountData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "otp": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "LoginData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password123"
+          }
+        }
+      },
+      "RequestResetPasswordData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          }
+        }
+      },
+      "ResetPasswordData": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "12ab34cd-56ef-78gh-90ij-klmn12345678"
+          },
+          "newPassword": {
+            "type": "string",
+            "example": "newpassword123"
+          }
+        }
+      }
+    }
+  }
