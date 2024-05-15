@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const configuration = require("../src/config/index.js");
 const swagger = require("../src/docs/swagger.json");
+const bookingRoutes=require('../src/Routes/bookingRoutes.js')
 
 //middlewares
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(cors());
 //routes
 app.use("/queen", swaggerUi.serve, swaggerUi.setup(swagger));
 app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/booking",bookingRoutes)
 
 
 mongoose
