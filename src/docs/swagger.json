@@ -7,7 +7,7 @@
     },
     "host": "quickhelp-2.onrender.com",
     "basePath": "/api/v1",
-    "schemes": ["http", "https"],
+    "schemes": ["https", "http"],
     "paths": {
       "/auth/register": {
         "post": {
