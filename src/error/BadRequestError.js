@@ -1,10 +1,10 @@
-import CustomError from "./CustomError.js";
+const CustomError = require ("./CustomError.js") ;
 
 /**
  * Custom error class for handling bad request errors.
  * @extends {CustomError} - Extends the CustomError class.
  */
-export class BadRequestError extends CustomError {
+class BadRequestError extends CustomError {
     /**
      * Constructor for the BadRequestError class.
      * @param {string} message - The error message to be displayed.
@@ -21,3 +21,4 @@ export class BadRequestError extends CustomError {
         this.statusCode = 400;
     }
 }
+module.exports = BadRequestError;

@@ -5,8 +5,8 @@ const asyncWrapper = (fn) => {
         } catch (error) {
             console.log(error.message)
             next(error);
-        }4
+        }
     }
 }
 
-export default asyncWrapper;
+module.exports=  asyncWrapper;
