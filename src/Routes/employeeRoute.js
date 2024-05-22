@@ -8,9 +8,8 @@ const {addemployeeValidation} = require("../utils/validation.js")
 employeeroute.post("/add", upload.single('profilePicture'), addemployeeValidation, employeeController.addEmployee);
 employeeroute.get("/get", employeeController.getEmployee);
 employeeroute.get("/getById/:id", employeeController.getEmployeeById);
-employeeroute.get("/getByjobs/:job", employeeController.getEmployeeByJobs);
+employeeroute.get("/getByjobs/:JobName", employeeController.getEmployeeByJobs);
 employeeroute.get("/getBystatus/:status", employeeController.getEmployeeByStatus);
 employeeroute.put("/update/:id",upload.single('profilePicture'),employeeController.updateEmployee);
-
 employeeroute.delete("/delete/:id", employeeController.deleteEmployee);
 module.exports = employeeroute;

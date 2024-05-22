@@ -1,4 +1,6 @@
+
 const CustomError = require ("./CustomError.js") ;
+
 
 /**
  * Custom error class for handling bad request errors.
@@ -10,15 +12,12 @@ class BadRequestError extends CustomError {
      * @param {string} message - The error message to be displayed.
      */
     constructor(message) {
-        /**
-         * Call the superclass constructor with the provided message.
-         * @param {string} message - The error message to be displayed
-         */
+        // Call the superclass constructor with the provided message.
         super(message);
-        /**
-         * Set the HTTP status code for this error to 400.
-         */
+        // Set the HTTP status code for this error to 400.
         this.statusCode = 400;
     }
 }
+
 module.exports = BadRequestError;
+

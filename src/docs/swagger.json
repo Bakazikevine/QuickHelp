@@ -5,7 +5,7 @@
       "description": "API documentation for Quick Help",
       "version": "1.0.0"
     },
-    "host": "quickhelp-2.onrender.com",
+    "host": "localhost:10000",
     "basePath": "/api/v1",
     "schemes": ["https", "http"],
     "paths": {
@@ -185,16 +185,14 @@
             {
               "name": "idCard",
               "in": "formData",
-              "description": "Your Id Card",
+              "description": "Your Id Card Number",
               "required": true,
               "type": "string"
             },
             {
-              "name": "job",
+              "name": "JobName",
               "in": "formData",
               "description": "Your job",
-              "enum": ["Housemaid", "Personal trainer","Gatekeeper", "BabySitter","Plumber","Gardener","Home chef","Caregiver","Home Tutor"],
-              "default": "Housemaid",
               "type": "string"
             },
             {
@@ -215,7 +213,7 @@
               "name": "status",
               "in": "formData",
               "description": "status",
-              "enum":  [ "In Progress", "Retired", "Hired"],
+              "enum":  [ "Pending", "Retired", "Hired"],
             "default": "Retired",
               "type": "string"
             },
@@ -225,6 +223,14 @@
               "description": "profile picture",
               "required": true,
               "type": "file"
+            },
+            {
+              "name": "dateOfBirth",
+              "in": "formData",
+              "description": "Date of Birth",
+              "required": true,
+              "type": "string",
+              "format": "Date"
             }
 
           ],
@@ -245,7 +251,7 @@
             {
               "description": "Get all Employee",
               "schema": {
-              "$ref": "#/definitions/doctors"
+              "$ref": "#/definitions/employee"
             }
             }
           ],
@@ -301,11 +307,9 @@
               "type": "string"
             },
             {
-              "name": "job",
+              "name": "JobName",
               "in": "formData",
               "description": "Update job your are searching for",
-              "enum": ["Housemaid", "Personal trainer","Gatekeeper", "BabySitter","Plumber","Gardener","Home chef","Caregiver","Home Tutor"],
-              "default": "Housemaid",
               "type": "string"
             },
             {
@@ -333,7 +337,17 @@
               "in": "formData",
               "description": "Change profile picture",
               "type": "file"
+            },
+            {
+              "name": "dateOfBirth",
+              "in": "formData",
+              "description": "Date of Birth",
+              "required":true,
+              "type": "string",
+              "format": "Date"
             }
+            
+
           ],
           "responses": {
             "200": {
@@ -513,16 +527,13 @@
         "type": "object",
         "properties": {
           "firstName": {
-            "type": "string",
-            "example":"john"
+            "type": "string"
           },
           "lastName": {
-            "type": "string",
-            "example":"Doe"
+            "type": "string"
           },
           "email": {
-            "type": "string",
-             "example":"john@example.com"
+            "type": "string"
           },
           "phone": {
             "type": "string",
@@ -532,7 +543,7 @@
             "type": "string",
             "example":"1199461526354626"
           },
-          "job": {
+          "JobName": {
             "type": "string",
             "example":"Gate keeper"
           },
@@ -551,6 +562,10 @@
           "profilePicture": {
             "type": "string",
             "example":"your picture"
+          },
+          "dateOfBirth": {
+            "type":"Date",
+            "example":"YYYY/MM/DD"
           }
           
         }

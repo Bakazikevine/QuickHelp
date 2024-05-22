@@ -1,24 +1,24 @@
+
 const CustomError =require("./CustomError.js");
 
 /**
- * Custom error class for handling bad request errors.
- * @extends {CustomError} - Extends the CustomError class.
+ * CustomError is a custom error class that extends the built-in Error class.
+ * It allows for creating custom error messages and can be used to throw custom errors.
+ * @constructor
+ * @param {string} message - The error message to be displayed when the error is thrown.
  */
+
 class UnauthorizedError extends CustomError {
+
     /**
-     * Constructor for the BadRequestError class.
-     * @param {string} message - The error message to be displayed.
+     * Constructor for CustomError.
+     * @param {string} message - The error message to be displayed when the error is thrown.
      */
     constructor(message) {
-        /**
-         * Call the superclass constructor with the provided message.
-         * @param {string} message - The error message to be displayed
-         */
+        // Call the superclass constructor with the provided error message.
         super(message);
-        /**
-         * Set the HTTP status code for this error to 400.
-         */
-        this.statusCode = 401;
     }
 }
+
 module.exports= UnauthorizedError;
+
