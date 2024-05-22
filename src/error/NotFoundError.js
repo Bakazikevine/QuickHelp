@@ -1,4 +1,5 @@
-const CustomError = require('./CustomError');
+
+const CustomError=require ("./CustomError.js");
 
 /**
  * @class
@@ -21,4 +22,5 @@ class NotFoundError extends CustomError {
     }
 }
 
-module.exports = NotFoundError;
+module.exports= NotFoundError;
+

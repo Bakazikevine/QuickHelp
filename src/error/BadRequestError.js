@@ -1,4 +1,6 @@
-const CustomError = require('./CustomError');
+
+const CustomError = require ("./CustomError.js") ;
+
 
 /**
  * Custom error class for handling bad request errors.
@@ -18,3 +20,4 @@ class BadRequestError extends CustomError {
 }
 
 module.exports = BadRequestError;
+

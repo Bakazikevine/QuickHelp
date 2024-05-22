@@ -5,7 +5,7 @@
       "description": "API documentation for Quick Help",
       "version": "1.0.0"
     },
-    "host": "quickhelp-2.onrender.com",
+    "host": "localhost:10000",
     "basePath": "/api/v1",
     "schemes": ["https", "http"],
     "paths": {
@@ -144,6 +144,317 @@
             }
           }
         }
+      },
+      
+      "/employee/add": {
+        "post": {
+          "summary": "Add new Employee",
+          "description": "Add new Employee",
+          "tags": ["Employee"],
+          "parameters": [
+            
+            {
+              "name": "firstName",
+              "in": "formData",
+              "description": "Your first name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "lastName",
+              "in": "formData",
+              "description": "Your last name",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "in": "formData",
+              "description": "Your email",
+              "required": true,
+              "type": "string"
+            },
+
+            {
+              "name": "phone",
+              "in": "formData",
+              "description": "Your phone number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "idCard",
+              "in": "formData",
+              "description": "Your Id Card Number",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "JobName",
+              "in": "formData",
+              "description": "Your job",
+              "type": "string"
+            },
+            {
+              "name": "experience",
+              "in": "formData",
+              "description": "Your work experience",
+              "required": true,
+              "type": "string"
+            }, 
+            {
+              "name": "min_salary",
+              "in": "formData",
+              "description": "Your minimum salary",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "in": "formData",
+              "description": "status",
+              "enum":  [ "Pending", "Retired", "Hired"],
+            "default": "Retired",
+              "type": "string"
+            },
+            {
+              "name": "profilePicture",
+              "in": "formData",
+              "description": "profile picture",
+              "required": true,
+              "type": "file"
+            },
+            {
+              "name": "dateOfBirth",
+              "in": "formData",
+              "description": "Date of Birth",
+              "required": true,
+              "type": "string",
+              "format": "Date"
+            }
+
+          ],
+          "responses": {
+            "201": {
+              "description": "Employee added"
+            }
+          }
+        }
+      },
+      
+      "/employee/get":{
+        "get": {
+          "summary": "Get all Employees ",
+          "description": "Get all Employees",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "description": "Get all Employee",
+              "schema": {
+              "$ref": "#/definitions/employee"
+            }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Employee Retrived"
+            }
+          }
+        }
+      },
+        "/employee/update/{id}": {
+        "put": {
+          "summary": "Update an Employee by ID",
+          "description": "Update an Employee by ID",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of Employee to update",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "firstName",
+              "in": "formData",
+              "description": "Update Your first name",
+              "type": "string"
+            },
+            {
+              "name": "lastName",
+              "in": "formData",
+              "description": "Update Your last name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "in": "formData",
+              "description": "Update Your email",
+              "type": "string"
+            },
+
+            {
+              "name": "phone",
+              "in": "formData",
+              "description": "Update Your phone number",
+              "type": "string"
+            },
+            {
+              "name": "idCard",
+              "in": "formData",
+              "description": "Update Your Id Card",
+              "type": "string"
+            },
+            {
+              "name": "JobName",
+              "in": "formData",
+              "description": "Update job your are searching for",
+              "type": "string"
+            },
+            {
+              "name": "experience",
+              "in": "formData",
+              "description": "Update Your work experience",
+              "type": "string"
+            }, 
+            {
+              "name": "min_salary",
+              "in": "formData",
+              "description": "Update Your minimum salary",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "in": "formData",
+              "description": "Update status",
+              "enum":  [ "In Progress", "Retired", "Hired"],
+            "default": "Retired",
+              "type": "string"
+            },
+            {
+              "name": "profilePicture",
+              "in": "formData",
+              "description": "Change profile picture",
+              "type": "file"
+            },
+            {
+              "name": "dateOfBirth",
+              "in": "formData",
+              "description": "Date of Birth",
+              "required":true,
+              "type": "string",
+              "format": "Date"
+            }
+            
+
+          ],
+          "responses": {
+            "200": {
+              "description": "Employee updated"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
+        
+      },
+      "/employee/delete/{id}":{
+        "delete": {
+          "summary": "Delete an Employee by ID",
+          "description": "Delete an Employee by ID",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the Employee to delete",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Employee deleted"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
+      },
+      "/employee/getById/{id}":{
+        "get": {
+          "summary": "Get an Employee by ID",
+          "description": "Get an Employee by ID",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the Employee to retrieve",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
+      },
+      "/employee/getBystatus/{status}":{
+        "get": {
+          "summary": "Get an Employee by Status",
+          "description": "Get an Employee by Status",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "name": "status",
+              "in": "path",
+              "description": "Status of the Employee to retrieve",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
+      },
+      "/employee/getByjobs/{job}":{
+        "get": {
+          "summary": "Get an Employee by Job",
+          "description": "Get an Employee by Job",
+          "tags": ["Employee"],
+          "parameters": [
+            {
+              "name": "job",
+              "in": "path",
+              "description": "Job of the Employee to retrieve",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
       }
     },
     "definitions": {
@@ -210,6 +521,53 @@
             "type": "string",
             "example": "newpassword123"
           }
+        }
+      },
+      "employee": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "example":"0789152634"
+          },
+          "idCard": {
+            "type": "string",
+            "example":"1199461526354626"
+          },
+          "JobName": {
+            "type": "string",
+            "example":"Gate keeper"
+          },
+          "experience": {
+            "type": "string",
+            "example":"2 years"
+          },
+          "min_salary": {
+            "type": "string",
+            "example":"40 k"
+          },
+          "status": {
+            "type": "string",
+            "example":"In progress"
+          },
+          "profilePicture": {
+            "type": "string",
+            "example":"your picture"
+          },
+          "dateOfBirth": {
+            "type":"Date",
+            "example":"YYYY/MM/DD"
+          }
+          
         }
       }
     }
