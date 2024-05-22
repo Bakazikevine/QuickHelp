@@ -1,8 +1,8 @@
 const Employee = require("../models/employeeModel.js");
 const asyncWrapper = require("../middlewares/async.js");
 const { validationResult } = require("express-validator");
+const { addemployeeValidation } = require("../utils/validation.js");
 const BadRequestError = require("../error/BadRequestError.js");
-
 const { NotFoundError } = require("../error/NotFoundError.js");
 // const cloudinary = require("../utils/cloudinary.js");
 
@@ -24,7 +24,7 @@ const employeeController = {
       status,
     } = req.body;
 
-    const profilePicture = req.file.path;
+    const profilePicture = req.file.path ;
 
     const addedEmployee = await Employee.create({
       firstName,
@@ -94,6 +94,7 @@ const employeeController = {
       data: updateEmployee,
     });
   }),
+  
 
   deleteEmployee: asyncWrapper(async (req, res, next) => {
     const deleteemployee = await Employee.deleteOne({
@@ -129,5 +130,4 @@ const employeeController = {
     });
   }),
 };
-
 module.exports = employeeController;
