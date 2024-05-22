@@ -8,15 +8,19 @@ const mongoose = require ('mongoose');
 const cors=require('cors');
 const configuration = require('../src/config/index.js')
 const swagger = require('../src/docs/swagger.json');
+const employeeroute=require('./Routes/employeeRoute.js');
+const jobRoutes=require('../src/Routes/jobRoutes.js')
+const bookingRoutes=require('../src/Routes/bookingRoutes.js')
 //middlewares
 app.use(express.json());
 app.use(cors());
 
 //routes
-const employeeroute=require('./Routes/employeeRoute.js');
 app.use('/api/v1/employee',employeeroute)
 app.use('/QuickHelp', swaggerUi.serve, swaggerUi.setup(swagger));
-app.use('/api/v1/auth',userRoutes)
+app.use('/api/v1/auth',userRoutes);
+app.use('/api/v1/Jobs',jobRoutes);
+app.use('/api/v1/Booking',bookingRoutes)
 
 mongoose
   .connect(configuration.mongoURI)

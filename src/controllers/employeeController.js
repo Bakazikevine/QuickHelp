@@ -1,16 +1,19 @@
+const { Schema, default: mongoose } = require("mongoose");
 const Employee = require("../models/employeeModel.js");
 const asyncWrapper = require("../middlewares/async.js");
 const { validationResult } = require("express-validator");
 const { addemployeeValidation } = require("../utils/validation.js");
 const BadRequestError = require("../error/BadRequestError.js");
+
 const { NotFoundError } = require("../error/NotFoundError.js");
 // const cloudinary = require("../utils/cloudinary.js");
 
+// CREATE EMPLOYEE
 const employeeController = {
   addEmployee: asyncWrapper(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      next(new BadRequestError(errors.array()[0].msg));
+      return next(new BadRequestError(errors.array()[0].msg));
     }
     const {
       firstName,
@@ -18,13 +21,14 @@ const employeeController = {
       email,
       phone,
       idCard,
-      job,
+      JobName,
       experience,
       min_salary,
       status,
+      dateOfBirth
     } = req.body;
 
-    const profilePicture = req.file.path ;
+    const profilePicture = req.file.path;
 
     const addedEmployee = await Employee.create({
       firstName,
@@ -32,101 +36,171 @@ const employeeController = {
       email,
       phone,
       idCard,
-      job,
+      JobName: jobData._id,
       experience,
       min_salary,
       status,
       profilePicture,
+      dateOfBirth
     });
+
     res.status(201).json({ success: true, data: addedEmployee });
   }),
 
+  // GET ALL EMPLOYEES
   getEmployee: asyncWrapper(async (req, res, next) => {
     const listEmployee = await Employee.find();
-    res.status(201).json({
+    res.status(200).json({
       message: "List of All Employees",
       data: listEmployee,
     });
   }),
 
+  // GET BY ID
   getEmployeeById: asyncWrapper(async (req, res, next) => {
-    const employeeById = await Employee.findById(req.params.id);
-    if (!employeeById) {
-      return next(`Employee not found`);
-      next(error);
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(new BadRequestError("Invalid employee ID"));
     }
-    res.status(201).json({
+
+    const employeeById = await Employee.findById(id);
+    if (!employeeById) {
+      return next(new NotFoundError("Employee not found"));
+    }
+    res.status(200).json({
       message: "Get Employee",
       data: employeeById,
     });
   }),
 
+  // UPDATE EMPLOYEE
   updateEmployee: asyncWrapper(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(new BadRequestError(errors.array()[0].msg));
+    }
+
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      idCard,
+      JobName,
+      experience,
+      min_salary,
+      status,
+      dateOfBirth
+    } = req.body;
+
     const updateData = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      phone: req.body.phone,
-      idCard: req.body.idCard,
-      job: req.body.job,
-      experience: req.body.experience,
-      min_salary: req.body.min_salary,
-      status: req.body.status,
+      firstName,
+      lastName,
+      email,
+      phone,
+      idCard,
+      experience,
+      min_salary,
+      status,
     };
-  
-    // Include the profile picture if it exists
+
     if (req.file) {
       updateData.profilePicture = req.file.path;
     }
-  
-    const updateEmployee = await Employee.findOneAndUpdate(
+
+    if (JobName) {
+      const jobData = await jobsModel.findOne({ JobName: JobName });
+      if (!jobData) {
+        return res.status(400).send({
+          success: false,
+          message: "Job does not exist"
+        });
+      }
+      updateData.JobName = jobData._id;
+    }
+
+    if (dateOfBirth) {
+      const today = new Date();
+      const birthDate = new Date(dateOfBirth);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      if (age < 18) {
+        return res.status(400).send({
+          success: false,
+          message: "Employees should be 18 years of age and above"
+        });
+      }
+
+      updateData.dateOfBirth = dateOfBirth;
+    }
+
+    const updatedEmployee = await Employee.findOneAndUpdate(
       { _id: req.params.id },
       updateData,
       { new: true }
     );
-  
-    if (!updateEmployee) {
+
+    if (!updatedEmployee) {
       return next(new NotFoundError("Employee not found"));
     }
-  
+
     res.status(200).json({
       message: "Employee updated",
-      data: updateEmployee,
+      data: updatedEmployee,
     });
   }),
   
 
+  // DELETE EMPLOYEE
   deleteEmployee: asyncWrapper(async (req, res, next) => {
     const deleteemployee = await Employee.deleteOne({
       _id: req.params.id,
     });
 
-    res.status(201).json({
+    res.status(200).json({
       message: "Employee deleted",
       data: deleteemployee,
     });
   }),
 
+  // GET EMPLOYEE BY JOBS
   getEmployeeByJobs: asyncWrapper(async (req, res, next) => {
-    const { job } = req.params;
-    const jobName = await Employee.findOne({ job: job });
-    if (!jobName) {
-      return next(`Employee not found`);
+    const { JobName } = req.params;
+
+    const jobData = await jobsModel.findOne({ JobName: JobName });
+    if (!jobData) {
+      return res.status(400).send({
+        success: false,
+        message: "Job does not exist"
+      });
     }
-    res.status(201).json({
-      message: "Get Employees By their Jobs",
-      data: jobName,
+
+    const employees = await Employee.find({ JobName: jobData._id });
+    if (employees.length === 0) {
+      return next(new NotFoundError("No employees found for this job"));
+    }
+
+    res.status(200).json({
+      message: "Got Employees By their Job Name",
+      data: employees,
     });
   }),
+
+  // GET JOBS BY STATUS
   getEmployeeByStatus: asyncWrapper(async (req, res, next) => {
     const { status } = req.params;
-    const Employeestatus = await Employee.findOne({ status: status });
-    if (!Employeestatus) {
-      return next(`Employee not found`);
+    const employeesWithStatus = await Employee.find({ status });
+  
+    if (employeesWithStatus.length === 0) {
+      return next(new NotFoundError("No employees with this status"));
     }
-    res.status(201).json({
+  
+    res.status(200).json({
       message: "Get Employees By their status",
-      data: Employeestatus,
+      data: employeesWithStatus,
     });
   }),
 };

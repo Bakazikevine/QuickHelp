@@ -25,10 +25,10 @@ const EmployeeSchema = new Schema({
          type: String,
          required:true
      },
-    job: {
-        type: String,
-        enum: ["Housemaid", "Personal trainer","Gatekeeper", "BabySitter","Plumber","Gardener","Home chef","Caregiver","Home Tutor"],
-        default: 'Housemaid',
+     JobName: {
+        type: Schema.Types.ObjectId,
+        ref: 'job',
+        required: true,
     },
     experience: {
         type: String,
@@ -41,10 +41,11 @@ const EmployeeSchema = new Schema({
     status: {
         type: String, 
         enum: {
-            values: ["In Progress", "Retired", "Hired"],
+            values: ["Pending", "Retired", "Hired"],
             message: "{VALUE} is not a valid status",
         },
-        default: "In Progress",
+        default: "Pending",
+
     },
 
     profilePicture: {
@@ -56,6 +57,7 @@ const EmployeeSchema = new Schema({
         type: Date,
         required: true,
       },
+
 },
 {
     timestamps: true,
