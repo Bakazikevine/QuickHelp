@@ -5,7 +5,7 @@
       "description": "API documentation for Quick Help",
       "version": "1.0.0"
     },
-    "host": "localhost:10000",
+    "host": "quickhelp-2.onrender.com",
     "basePath": "/api/v1",
     "schemes": ["https", "http"],
     "paths": {
@@ -455,8 +455,183 @@
             }
           }
         }
+      },
+      "/jobs/createJob": {
+        "post": {
+          "summary": "Add new Job",
+          "description": "Add new Job",
+          "tags": ["Jobs"],
+          "parameters": [
+            
+            {
+              "name": "JobName",
+              "in": "formData",
+              "description": "Jobname",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Description",
+              "in": "formData",
+              "description": "Jobname",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Picture",
+              "in": "formData",
+              "description": "picture",
+              "required": true,
+              "type": "file"
+            }
+
+          ],
+          "responses": {
+            "201": {
+              "description": "Job added"
+            }
+          }
+        }
+      },
+      
+      "/jobs/getAll":{
+        "get": {
+          "summary": "Get all Jobs ",
+          "description": "Get all Jobs",
+          "tags": ["Jobs"],
+          "parameters": [
+            {
+              "description": "Get all Jobs",
+              "schema": {
+              "$ref": "#/definitions/job"
+            }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Jobs Retrived"
+            }
+          }
+        }
+      },
+        "/jobs/updateJob/{id}": {
+        "put": {
+          "summary": "Update Job by ID",
+          "description": "Update Job by ID",
+          "tags": ["Jobs"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of Jobs to update",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "JobName",
+              "in": "formData",
+              "description": "Update Jobname",
+              "type": "string"
+            },
+            {
+              "name": "Description",
+              "in": "formData",
+              "description": "Update Description",
+              "type": "string"
+            },
+            {
+              "name": "Picture",
+              "in": "formData",
+              "description": "Job picture",
+              "type": "file"
+            }
+
+          ],
+          "responses": {
+            "200": {
+              "description": "Job updated"
+            },
+            "404": {
+              "description": "Job not found"
+            }
+          }
+        }
+        
+      },
+      "/jobs/delete/{id}":{
+        "delete": {
+          "summary": "Delete Job by ID",
+          "description": "Delete Job by ID",
+          "tags": ["Jobs"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of Job to delete",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Job deleted"
+            },
+            "404": {
+              "description": "Job not found"
+            }
+          }
+        }
+      },
+      "/jobs/getbyName/{JobName}":{
+        "get": {
+          "summary": "Get  Job by jobname",
+          "description": "Get Job by  jobname",
+          "tags": ["Jobs"],
+          "parameters": [
+            {
+              "name": "JobName",
+              "in": "path",
+              "description": "Name of Job to retrieve",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
+      },
+      "/Jobs/getbyId/{id}":{
+        "get": {
+          "summary": "Get an Employee by Id",
+          "description": "Get an Employee by Status",
+          "tags": ["Jobs"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Id of the Employee to retrieve",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response"
+            },
+            "404": {
+              "description": "Employee not found"
+            }
+          }
+        }
       }
     },
+    
     "definitions": {
       "RegisterData": {
         "type": "object",
@@ -566,6 +741,23 @@
           "dateOfBirth": {
             "type":"Date",
             "example":"YYYY/MM/DD"
+          }
+          
+        }
+      },
+      
+      "job": {
+        "type": "object",
+        "properties": {
+          "JobName": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Picture": {
+            "type": "string",
+            "example":"Job picture"
           }
           
         }
