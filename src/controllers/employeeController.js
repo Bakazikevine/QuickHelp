@@ -28,7 +28,7 @@ const employeeController = {
       dateOfBirth
     } = req.body;
 
-    const profilePicture = req.file.path;
+    const profilePicture = req.file.filename; 
     if (!JobName) {
       return res.status(400).send({
         success: false,
@@ -56,7 +56,7 @@ const employeeController = {
       return res.status(400).send({
         success: false,
         message: "Employees should be 18 years of age and above"
-      });
+     });
     }
     const addedEmployee = await Employee.create({
       firstName,
@@ -132,8 +132,9 @@ const employeeController = {
       status,
     };
 
+   
     if (req.file) {
-      updateData.profilePicture = req.file.path;
+      updateData.profilePicture = req.file.filename; // Store only the filename
     }
 
     if (JobName) {
