@@ -9,7 +9,13 @@ const addemployeeValidation = [
     body("phone", "Phone number must be Airtel or MTN and must contain 10 numbers ").isLength({ min: 10, max: 10 }).isNumeric().matches(/^(078|073|079|072)\d{7}$/),
     body("idCard", "ID card number must be 16 characters").isLength({ min: 16, max: 16 }).isAlphanumeric()
 ];
-
+const addBookingValidation = [
+    body("Name", "First name is required").notEmpty(),
+    body("Email", "Email is required").notEmpty(),
+    body("Email", "Invalid email").isEmail(),
+    body("phoneNumber", "Phone number must be Airtel or MTN and must contain 10 numbers ").isLength({ min: 10, max: 10 }).isNumeric().matches(/^(078|073|079|072)\d{7}$/),
+    body("idCard", "ID card number must be 16 characters").isLength({ min: 16, max: 16 }).isAlphanumeric()
+];
 const forgotPasswordValidation = [
     body("email", "Email must be provided").notEmpty(),
 ];
@@ -46,6 +52,7 @@ const loginValidations = [
 
 module.exports = {
     addemployeeValidation,
+    addBookingValidation,
     forgotPasswordValidation,
     resetPasswordValidation,
     otpValidation,

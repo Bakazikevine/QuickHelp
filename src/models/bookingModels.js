@@ -1,51 +1,35 @@
 const mongoose = require('mongoose');
 
 const BookingSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'userprofile', 
-    required: true
-  },
-  Names: {
+  Name: {
     type: String,
     required: true
   },
   Email: {
     type: String,
-    required: true,
-    unique:true
+    required:[true,'Email is required'],
+    unique:true,
+    match: [/^\S+@\S+\.\S+$/, 'Email is invalid']
   },
   phoneNumber: {
     type: String,
-    required: true
+    required: true,
   },
-  jobTitle: {
+  Address: {
     type: String,
     required: true
   },
-  jobDescription: {
+  householdSize: {
+    type: Number,
+    required: true
+  },
+  idCard: {
     type: [String],
     required: true
   },
-  jobRoles: {
-    type: [String],
-    required: true
-  },
-  location: {
+  AdditionalInformation: {
     type: String,
-    required: true
-  },
-  duration: {
-    type: String,
-    required: true
-  },
-  minSalary: {
-    type: String,
-    required: true
-  },
-  maxSalary: {
-    type: String,
-    required: true
+    required: false
   }
 }, { timestamps: true }); 
 
