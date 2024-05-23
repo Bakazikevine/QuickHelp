@@ -6,6 +6,7 @@ const swaggerUi=require('swagger-ui-express')
 const app = express()
 const mongoose = require ('mongoose');
 const cors=require('cors');
+const path = require('path');
 const configuration = require('../src/config/index.js')
 const swagger = require('../src/docs/swagger.json');
 const employeeroute=require('./Routes/employeeRoute.js');
@@ -21,6 +22,7 @@ app.use('/QuickHelp', swaggerUi.serve, swaggerUi.setup(swagger));
 app.use('/api/v1/auth',userRoutes);
 app.use('/api/v1/Jobs',jobRoutes);
 app.use('/api/v1/Booking',bookingRoutes)
+app.use('/upload', express.static(path.join(__dirname, 'upload')));
 
 mongoose
   .connect(configuration.mongoURI)

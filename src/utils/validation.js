@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 
+
 const addemployeeValidation = [
     body("firstName", "First name is required").notEmpty(),
     body("lastName", "Last name is required").notEmpty(),

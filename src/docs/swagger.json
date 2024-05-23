@@ -328,8 +328,8 @@
               "name": "status",
               "in": "formData",
               "description": "Update status",
-              "enum":  [ "In Progress", "Retired", "Hired"],
-            "default": "Retired",
+              "enum":  [ "Pending", "Retired", "Hired"],
+            "default": "Pending",
               "type": "string"
             },
             {

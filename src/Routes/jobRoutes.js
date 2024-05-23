@@ -2,8 +2,10 @@ const { createJobController, getJobByNameController,getAllJobsController, update
 const express = require('express');
 const router = express.Router();
 
+const upload = require("../middlewares/upload.js");
+
 // CREATE JOB
-router.post('/createJob', createJobController);
+router.post('/createJob',upload.single('Picture'), createJobController);
 
 // GET JOB BY NAME
 router.get('/getbyName/:JobName',getJobByNameController );

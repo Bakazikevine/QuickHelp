@@ -45,6 +45,7 @@ const EmployeeSchema = new Schema({
             message: "{VALUE} is not a valid status",
         },
         default: "Pending",
+
     },
 
     profilePicture: {
@@ -52,11 +53,11 @@ const EmployeeSchema = new Schema({
          required:true
 
      },
-     dateOfBirth:{
-        type:Date,
-        required:true
-     }
-     
+     dateOfBirth: {
+        type: Date,
+        required: true,
+      },
+
 },
 {
     timestamps: true,

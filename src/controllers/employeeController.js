@@ -2,9 +2,10 @@ const { Schema, default: mongoose } = require("mongoose");
 const Employee = require("../models/employeeModel.js");
 const asyncWrapper = require("../middlewares/async.js");
 const { validationResult } = require("express-validator");
+const { addemployeeValidation } = require("../utils/validation.js");
 const BadRequestError = require("../error/BadRequestError.js");
-const NotFoundError = require('../error/NotFoundError.js');
-const jobsModel = require("../models/jobsModel.js");
+const jobsModel = require("../models/jobsModel.js")
+const { NotFoundError } = require("../error/NotFoundError.js");
 // const cloudinary = require("../utils/cloudinary.js");
 
 // CREATE EMPLOYEE
@@ -27,8 +28,7 @@ const employeeController = {
       dateOfBirth
     } = req.body;
 
-    const profilePicture = req.file ? req.file.path : '';
-
+    const profilePicture = req.file.filename; 
     if (!JobName) {
       return res.status(400).send({
         success: false,
@@ -56,9 +56,8 @@ const employeeController = {
       return res.status(400).send({
         success: false,
         message: "Employees should be 18 years of age and above"
-      });
-    }
-
+     });
+    }
     const addedEmployee = await Employee.create({
       firstName,
       lastName,
@@ -133,8 +132,9 @@ const employeeController = {
       status,
     };
 
+   
     if (req.file) {
-      updateData.profilePicture = req.file.path;
+      updateData.profilePicture = req.file.filename; // Store only the filename
     }
 
     if (JobName) {
@@ -181,6 +181,7 @@ const employeeController = {
       data: updatedEmployee,
     });
   }),
+  
 
   // DELETE EMPLOYEE
   deleteEmployee: asyncWrapper(async (req, res, next) => {
@@ -232,5 +233,4 @@ const employeeController = {
     });
   }),
 };
-
 module.exports = employeeController;
