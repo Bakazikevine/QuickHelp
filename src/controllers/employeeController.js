@@ -4,7 +4,7 @@ const asyncWrapper = require("../middlewares/async.js");
 const { validationResult } = require("express-validator");
 const { addemployeeValidation } = require("../utils/validation.js");
 const BadRequestError = require("../error/BadRequestError.js");
-
+const jobsModel = require("../models/jobsModel.js")
 const { NotFoundError } = require("../error/NotFoundError.js");
 // const cloudinary = require("../utils/cloudinary.js");
 
@@ -29,7 +29,35 @@ const employeeController = {
     } = req.body;
 
     const profilePicture = req.file.path;
+    if (!JobName) {
+      return res.status(400).send({
+        success: false,
+        message: "Job name is required"
+      });
+    }
 
+    const jobData = await jobsModel.findOne({ JobName: JobName });
+    if (!jobData) {
+      return res.status(400).send({
+        success: false,
+        message: "Job does not exist"
+      });
+    }
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    // Check if age is less than 18
+    if (age < 18) {
+      return res.status(400).send({
+        success: false,
+        message: "Employees should be 18 years of age and above"
+      });
+    }
     const addedEmployee = await Employee.create({
       firstName,
       lastName,
