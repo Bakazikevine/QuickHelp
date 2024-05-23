@@ -1,12 +1,16 @@
 const Booking = require('../models/bookingModels');
-//import userprofilemodel
-const sendEmail = require('../utils/sendEmail');
+const { validationResult } = require("express-validator");
+const asyncWrapper = require("../middlewares/async.js");
+const BadRequestError = require("../error/BadRequestError.js");
+const NotFoundError = require('../error/NotFoundError.js');
 
-// Controller to create a new booking
-const createBooking = async (req, res) => {
-  try {
-    // Check if all required fields are provided in the request body
-    const requiredFields = ['Names', 'Email', 'phoneNumber', 'jobTitle', 'jobDescription', 'jobRoles', 'location', 'duration', 'minSalary', 'maxSalary'];
+//Create a new booking
+const createBooking = asyncWrapper(async (req, res,next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(new BadRequestError(errors.array()[0].msg));
+  }
+    const requiredFields = ['Name', 'Email', 'phoneNumber','Address', 'householdSize', 'idCard',' AdditionalInformation'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({ error: `Please provide ${field}` });
@@ -15,39 +19,88 @@ const createBooking = async (req, res) => {
 
     const newBooking = new Booking(req.body);
     await newBooking.save();
-
-    // Fetch the userprofile associated with the booking
-    const user = await Userprofile.findById(newBooking.user);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Construct the link for the user to log back in
-    const loginLink = 'https://yourwebsite.com/login'; // Update with your actual login URL
-
-    // Send email to the email of the person booked (from userprofile)
-    const emailContent = `
-      <p>Hello ${user.email},</p>
-      <p>You have received a new booking request with the following details:</p>
-      <ul>
-        <li>Email: ${newBooking.Email}</li>
-        <li>Phone Number: ${newBooking.phoneNumber}</li>
-        <li>Job Title: ${newBooking.jobTitle}</li>
-        <li>Job Description: ${newBooking.jobDescription.join(', ')}</li>
-        <li>Job Roles: ${newBooking.jobRoles.join(', ')}</li>
-        <li>Location: ${newBooking.location}</li>
-        <li>Duration: ${newBooking.duration}</li>
-        <li>Minimum Salary: ${newBooking.minSalary}</li>
-        <li>Maximum Salary: ${newBooking.maxSalary}</li>
-      </ul>
-      <p>Please <a href="${loginLink}">login to your account</a> to approve or deny this booking request.</p>
-    `;
-    await sendEmail(user.email, 'New Booking Request', emailContent);
-
     res.status(201).json({ message: 'Booking request sent successfully' });
+  
+});
+// GET ALL BOOKINGS
+const getAllBookingsController = async (req, res) => {
+  try {
+    const book = await Booking.find({});
+    if (!book) {
+      return res.status(404).send({
+        success: false,
+        message: "No Bookings Available",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      totalCount: book.length,
+      book,
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In Get ALL BOOKINGS API",
+      error,
+    });
+  }
+};
+ // GET BOOKING BY ID
+ const getBookingByIdController = async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      // Check if the booking exists
+      const booker = await Booking.findById(id);
+      if (!booker) {
+          return res.status(404).send({
+              success: false,
+              message: "Booking not found"
+          });
+      }
+
+      res.status(200).send({
+          success: true,
+          data: booker
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error in the Get Booking by ID API",
+          error
+      });
+  }
+};
+ //DELETE BOOKING
+ const deleteBookingController = async (req, res) => {
+  try {
+    const BookingId = req.params.id;
+    if (!BookingId) {
+      return res.status(404).send({
+        success: false,
+        message: "Booking Not Found OR Provide Booking ID",
+      });
+    }
+    await Booking.findByIdAndDelete(BookingId);
+    res.status(200).send({
+      success: true,
+      message: "Booking Deleted Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Eror in delete Booking API",
+      error,
+    });
   }
 };
 
-module.exports = { createBooking };
+
+module.exports = { createBooking ,
+  getAllBookingsController,
+  getBookingByIdController,
+  deleteBookingController
+};
