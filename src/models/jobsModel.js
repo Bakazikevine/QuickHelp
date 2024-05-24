@@ -9,7 +9,7 @@ const jobSchema=new mongoose.Schema({
         required:true
     },
     Picture:{
-        type:"String",
+        type:"Object",
         required:true
     }
 

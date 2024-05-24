@@ -49,7 +49,7 @@ const EmployeeSchema = new Schema({
     },
 
     profilePicture: {
-         type: String,
+         type:Object,
          required:true
 
      },
