@@ -72,7 +72,7 @@ const employeeController = {
       email,
       phone,
       idCard,
-      JobName: jobData._id,
+      JobName,
       experience,
       min_salary,
       status,
@@ -220,7 +220,7 @@ const employeeController = {
         message: "Job does not exist"
       });
     }
-    const employees = await Employee.find({ JobName: jobData._id });
+    const employees = await Employee.find({ JobName: JobName });
     if (employees.length === 0) {
       return next(new NotFoundError("No employees found for this job"));
     }

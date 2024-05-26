@@ -1,766 +1,916 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "Quick Help API",
-      "description": "API documentation for Quick Help",
-      "version": "1.0.0"
+  "swagger": "2.0",
+  "info": {
+    "title": "Quick Help API",
+    "description": "API documentation for Quick Help",
+    "version": "1.0.0"
+  },
+  "host": "quickhelp-2.onrender.com",
+  "basePath": "/api/v1",
+  "schemes": ["https", "http"],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "User Registration",
+        "description": "Register a new user",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterData"
+            },
+            "required": true,
+            "description": "User registration details"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered successfully"
+          }
+        }
+      }
     },
-    "host": "quickhelp-2.onrender.com",
-    "basePath": "/api/v1",
-    "schemes": ["https", "http"],
-    "paths": {
-      "/auth/register": {
-        "post": {
-          "summary": "User Registration",
-          "description": "Register a new user",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "schema": {
-                "$ref": "#/definitions/RegisterData"
-              },
-              "required": true,
-              "description": "User registration details"
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "User registered successfully"
-            }
+    "/auth/verify": {
+      "post": {
+        "summary": "Verify Account",
+        "description": "Verify user account",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/VerifyAccountData"
+            },
+            "required": true,
+            "description": "User email and OTP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account verified successfully"
           }
         }
-      },
-      "/auth/verify": {
-        "post": {
-          "summary": "Verify Account",
-          "description": "Verify user account",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "schema": {
-                "$ref": "#/definitions/VerifyAccountData"
-              },
-              "required": true,
-              "description": "User email and OTP"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Account verified successfully"
-            }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "User Login",
+        "description": "Authenticate user login",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LoginData"
+            },
+            "required": true,
+            "description": "User email and password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully"
           }
         }
-      },
-      "/auth/login": {
-        "post": {
-          "summary": "User Login",
-          "description": "Authenticate user login",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "schema": {
-                "$ref": "#/definitions/LoginData"
-              },
-              "required": true,
-              "description": "User email and password"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User logged in successfully"
-            }
+      }
+    },
+    "/auth/request": {
+      "post": {
+        "summary": "Request Reset Password",
+        "description": "Request password reset",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RequestResetPasswordData"
+            },
+            "required": true,
+            "description": "User email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset request successful"
           }
         }
-      },
-      "/auth/request": {
-        "post": {
-          "summary": "Request Reset Password",
-          "description": "Request password reset",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "schema": {
-                "$ref": "#/definitions/RequestResetPasswordData"
-              },
-              "required": true,
-              "description": "User email"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Password reset request successful"
-            }
+      }
+    },
+    "/auth/reset": {
+      "post": {
+        "summary": "Reset Password",
+        "description": "Reset user password",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordData"
+            },
+            "required": true,
+            "description": "Reset token and new password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successful"
           }
         }
-      },
-      "/auth/reset": {
-        "post": {
-          "summary": "Reset Password",
-          "description": "Reset user password",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "schema": {
-                "$ref": "#/definitions/ResetPasswordData"
-              },
-              "required": true,
-              "description": "Reset token and new password"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Password reset successful"
-            }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "User Logout",
+        "description": "Logout user",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "token",
+            "type": "string",
+            "required": true,
+            "description": "Authentication token received during login"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged out successfully"
           }
         }
-      },
-      "/auth/logout": {
-        "post": {
-          "summary": "User Logout",
-          "description": "Logout user",
-          "tags": ["Authentication"],
-          "parameters": [
-            {
-              "in": "header",
-              "name": "token",
-              "type": "string",
-              "required": true,
-              "description": "Authentication token received during login"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "User logged out successfully"
-            }
-          }
-        }
-      },
-      
-      "/employee/add": {
-        "post": {
-          "summary": "Add new Employee",
-          "description": "Add new Employee",
-          "tags": ["Employee"],
-          "parameters": [
-            
-            {
-              "name": "firstName",
-              "in": "formData",
-              "description": "Your first name",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "lastName",
-              "in": "formData",
-              "description": "Your last name",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "email",
-              "in": "formData",
-              "description": "Your email",
-              "required": true,
-              "type": "string"
-            },
-
-            {
-              "name": "phone",
-              "in": "formData",
-              "description": "Your phone number",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "idCard",
-              "in": "formData",
-              "description": "Your Id Card Number",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "JobName",
-              "in": "formData",
-              "description": "Your job",
-              "type": "string"
-            },
-            {
-              "name": "experience",
-              "in": "formData",
-              "description": "Your work experience",
-              "required": true,
-              "type": "string"
-            }, 
-            {
-              "name": "min_salary",
-              "in": "formData",
-              "description": "Your minimum salary",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "status",
-              "in": "formData",
-              "description": "status",
-              "enum":  [ "Pending", "Retired", "Hired"],
+      }
+    },
+    "/employee/add": {
+      "post": {
+        "summary": "Add new Employee",
+        "description": "Add new Employee",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "firstName",
+            "in": "formData",
+            "description": "Your first name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "lastName",
+            "in": "formData",
+            "description": "Your last name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Your email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "Your phone number",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "idCard",
+            "in": "formData",
+            "description": "Your Id Card Number",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "JobName",
+            "in": "formData",
+            "description": "Your job",
+            "type": "string"
+          },
+          {
+            "name": "experience",
+            "in": "formData",
+            "description": "Your work experience",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "min_salary",
+            "in": "formData",
+            "description": "Your minimum salary",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "status",
+            "enum": ["Pending", "Retired", "Hired"],
             "default": "Retired",
-              "type": "string"
-            },
-            {
-              "name": "profilePicture",
-              "in": "formData",
-              "description": "profile picture",
-              "required": true,
-              "type": "file"
-            },
-            {
-              "name": "dateOfBirth",
-              "in": "formData",
-              "description": "Date of Birth",
-              "required": true,
-              "type": "string",
-              "format": "Date"
-            }
-
-          ],
-          "responses": {
-            "201": {
-              "description": "Employee added"
-            }
+            "type": "string"
+          },
+          {
+            "name": "profilePicture",
+            "in": "formData",
+            "description": "profile picture",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "dateOfBirth",
+            "in": "formData",
+            "description": "Date of Birth",
+            "required": true,
+            "type": "string",
+            "format": "Date"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Employee added"
           }
         }
-      },
-      
-      "/employee/get":{
-        "get": {
-          "summary": "Get all Employees ",
-          "description": "Get all Employees",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "description": "Get all Employee",
-              "schema": {
+      }
+    },
+    "/employee/get": {
+      "get": {
+        "summary": "Get all Employees ",
+        "description": "Get all Employees",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "description": "Get all Employee",
+            "schema": {
               "$ref": "#/definitions/employee"
             }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Employee Retrived"
-            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Employee Retrieved"
           }
         }
-      },
-        "/employee/update/{id}": {
-        "put": {
-          "summary": "Update an Employee by ID",
-          "description": "Update an Employee by ID",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of Employee to update",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "firstName",
-              "in": "formData",
-              "description": "Update Your first name",
-              "type": "string"
-            },
-            {
-              "name": "lastName",
-              "in": "formData",
-              "description": "Update Your last name",
-              "type": "string"
-            },
-            {
-              "name": "email",
-              "in": "formData",
-              "description": "Update Your email",
-              "type": "string"
-            },
-
-            {
-              "name": "phone",
-              "in": "formData",
-              "description": "Update Your phone number",
-              "type": "string"
-            },
-            {
-              "name": "idCard",
-              "in": "formData",
-              "description": "Update Your Id Card",
-              "type": "string"
-            },
-            {
-              "name": "JobName",
-              "in": "formData",
-              "description": "Update job your are searching for",
-              "type": "string"
-            },
-            {
-              "name": "experience",
-              "in": "formData",
-              "description": "Update Your work experience",
-              "type": "string"
-            }, 
-            {
-              "name": "min_salary",
-              "in": "formData",
-              "description": "Update Your minimum salary",
-              "type": "string"
-            },
-            {
-              "name": "status",
-              "in": "formData",
-              "description": "Update status",
-              "enum":  [ "Pending", "Retired", "Hired"],
+      }
+    },
+    "/employee/getById/{id}":{
+      "get": {
+        "summary": "Get an Employee by ID",
+        "description": "Get an Employee by ID",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the Employee to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/employee/update/{id}": {
+      "put": {
+        "summary": "Update an Employee by ID",
+        "description": "Update an Employee by ID",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Employee to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "firstName",
+            "in": "formData",
+            "description": "Update Your first name",
+            "type": "string"
+          },
+          {
+            "name": "lastName",
+            "in": "formData",
+            "description": "Update Your last name",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "description": "Update Your email",
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "description": "Update Your phone number",
+            "type": "string"
+          },
+          {
+            "name": "idCard",
+            "in": "formData",
+            "description": "Update Your Id Card",
+            "type": "string"
+          },
+          {
+            "name": "JobName",
+            "in": "formData",
+            "description": "Update job your are searching for",
+            "type": "string"
+          },
+          {
+            "name": "experience",
+            "in": "formData",
+            "description": "Update Your work experience",
+            "type": "string"
+          },
+          {
+            "name": "min_salary",
+            "in": "formData",
+            "description": "Update Your minimum salary",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "Update status",
+            "enum": ["Pending", "Retired", "Hired"],
             "default": "Pending",
-              "type": "string"
-            },
-            {
-              "name": "profilePicture",
-              "in": "formData",
-              "description": "Change profile picture",
-              "type": "file"
-            },
-            {
-              "name": "dateOfBirth",
-              "in": "formData",
-              "description": "Date of Birth",
-              "required":true,
-              "type": "string",
-              "format": "Date"
-            }
-            
+            "type": "string"
+          },
+          {
+            "name": "profilePicture",
+            "in": "formData",
+            "description": "Change profile picture",
+            "type": "file"
+          },
+          {
+            "name": "dateOfBirth",
+            "in": "formData",
+            "description": "Date of Birth",
+            "required": false,
+            "type": "string",
+            "format": "Date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Employee updated"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/employee/getBystatus/{status}":{
+      "get": {
+        "summary": "Get an Employee by Status",
+        "description": "Get an Employee by Status",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "description": "Status of the Employee to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/employee/getByjobs/{JobName}":{
+      "get": {
+        "summary": "Get an Employee by Job",
+        "description": "Get an Employee by Job",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "JobName",
+            "in": "path",
+            "description": "Job of the Employee to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/employee/delete/{id}": {
+      "delete": {
+        "summary": "Delete an Employee by ID",
+        "description": "Delete an Employee by ID",
+        "tags": ["Employee"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Employee to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Employee deleted"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/jobs/createJob": {
+      "post": {
+        "summary": "Add new Job",
+        "description": "Add new Job",
+        "tags": ["Jobs"],
+        "parameters": [
+          
+          {
+            "name": "JobName",
+            "in": "formData",
+            "description": "Jobname",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Description",
+            "in": "formData",
+            "description": "Jobname",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Picture",
+            "in": "formData",
+            "description": "picture",
+            "required": true,
+            "type": "file"
+          }
 
-          ],
-          "responses": {
-            "200": {
-              "description": "Employee updated"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-        
-      },
-      "/employee/delete/{id}":{
-        "delete": {
-          "summary": "Delete an Employee by ID",
-          "description": "Delete an Employee by ID",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of the Employee to delete",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Employee deleted"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-      },
-      "/employee/getById/{id}":{
-        "get": {
-          "summary": "Get an Employee by ID",
-          "description": "Get an Employee by ID",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of the Employee to retrieve",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-      },
-      "/employee/getBystatus/{status}":{
-        "get": {
-          "summary": "Get an Employee by Status",
-          "description": "Get an Employee by Status",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "name": "status",
-              "in": "path",
-              "description": "Status of the Employee to retrieve",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-      },
-      "/employee/getByjobs/{job}":{
-        "get": {
-          "summary": "Get an Employee by Job",
-          "description": "Get an Employee by Job",
-          "tags": ["Employee"],
-          "parameters": [
-            {
-              "name": "job",
-              "in": "path",
-              "description": "Job of the Employee to retrieve",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-      },
-      "/jobs/createJob": {
-        "post": {
-          "summary": "Add new Job",
-          "description": "Add new Job",
-          "tags": ["Jobs"],
-          "parameters": [
-            
-            {
-              "name": "JobName",
-              "in": "formData",
-              "description": "Jobname",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "Description",
-              "in": "formData",
-              "description": "Jobname",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "Picture",
-              "in": "formData",
-              "description": "picture",
-              "required": true,
-              "type": "file"
-            }
-
-          ],
-          "responses": {
-            "201": {
-              "description": "Job added"
-            }
-          }
-        }
-      },
-      
-      "/jobs/getAll":{
-        "get": {
-          "summary": "Get all Jobs ",
-          "description": "Get all Jobs",
-          "tags": ["Jobs"],
-          "parameters": [
-            {
-              "description": "Get all Jobs",
-              "schema": {
-              "$ref": "#/definitions/job"
-            }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Jobs Retrived"
-            }
-          }
-        }
-      },
-        "/jobs/updateJob/{id}": {
-        "put": {
-          "summary": "Update Job by ID",
-          "description": "Update Job by ID",
-          "tags": ["Jobs"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of Jobs to update",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "JobName",
-              "in": "formData",
-              "description": "Update Jobname",
-              "type": "string"
-            },
-            {
-              "name": "Description",
-              "in": "formData",
-              "description": "Update Description",
-              "type": "string"
-            },
-            {
-              "name": "Picture",
-              "in": "formData",
-              "description": "Job picture",
-              "type": "file"
-            }
-
-          ],
-          "responses": {
-            "200": {
-              "description": "Job updated"
-            },
-            "404": {
-              "description": "Job not found"
-            }
-          }
-        }
-        
-      },
-      "/jobs/delete/{id}":{
-        "delete": {
-          "summary": "Delete Job by ID",
-          "description": "Delete Job by ID",
-          "tags": ["Jobs"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of Job to delete",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Job deleted"
-            },
-            "404": {
-              "description": "Job not found"
-            }
-          }
-        }
-      },
-      "/jobs/getbyName/{JobName}":{
-        "get": {
-          "summary": "Get  Job by jobname",
-          "description": "Get Job by  jobname",
-          "tags": ["Jobs"],
-          "parameters": [
-            {
-              "name": "JobName",
-              "in": "path",
-              "description": "Name of Job to retrieve",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
-          }
-        }
-      },
-      "/Jobs/getbyId/{id}":{
-        "get": {
-          "summary": "Get an Employee by Id",
-          "description": "Get an Employee by Status",
-          "tags": ["Jobs"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "Id of the Employee to retrieve",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Successful response"
-            },
-            "404": {
-              "description": "Employee not found"
-            }
+        ],
+        "responses": {
+          "201": {
+            "description": "Job added"
           }
         }
       }
     },
     
-    "definitions": {
-      "RegisterData": {
-        "type": "object",
-        "properties": {
-          "userName": {
-            "type": "string",
-            "example": "john_doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@gmail.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "Password@123"
+    "/jobs/getAll":{
+      "get": {
+        "summary": "Get all Jobs ",
+        "description": "Get all Jobs",
+        "tags": ["Jobs"],
+        "parameters": [
+          {
+            "description": "Get all Jobs",
+            "schema": {
+              "$ref": "#/definitions/job"
+          }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Jobs Retrived"
           }
         }
-      },
-      "VerifyAccountData": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          },
-          "otp": {
-            "type": "string",
-            "example": "123456"
-          }
-        }
-      },
-      "LoginData": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "password123"
-          }
-        }
-      },
-      "RequestResetPasswordData": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "john@example.com"
-          }
-        }
-      },
-      "ResetPasswordData": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string",
-            "example": "12ab34cd-56ef-78gh-90ij-klmn12345678"
-          },
-          "newPassword": {
-            "type": "string",
-            "example": "newpassword123"
-          }
-        }
-      },
-      "employee": {
-        "type": "object",
-        "properties": {
-          "firstName": {
+      }
+    },
+      "/jobs/updateJob/{id}": {
+      "put": {
+        "summary": "Update Job by ID",
+        "description": "Update Job by ID",
+        "tags": ["Jobs"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Jobs to update",
+            "required": true,
             "type": "string"
           },
-          "lastName": {
+          {
+            "name": "JobName",
+            "in": "formData",
+            "description": "Update Jobname",
             "type": "string"
           },
-          "email": {
+          {
+            "name": "Description",
+            "in": "formData",
+            "description": "Update Description",
             "type": "string"
           },
-          "phone": {
-            "type": "string",
-            "example":"0789152634"
-          },
-          "idCard": {
-            "type": "string",
-            "example":"1199461526354626"
-          },
-          "JobName": {
-            "type": "string",
-            "example":"Gate keeper"
-          },
-          "experience": {
-            "type": "string",
-            "example":"2 years"
-          },
-          "min_salary": {
-            "type": "string",
-            "example":"40 k"
-          },
-          "status": {
-            "type": "string",
-            "example":"In progress"
-          },
-          "profilePicture": {
-            "type": "string",
-            "example":"your picture"
-          },
-          "dateOfBirth": {
-            "type":"Date",
-            "example":"YYYY/MM/DD"
+          {
+            "name": "Picture",
+            "in": "formData",
+            "description": "Job picture",
+            "type": "file"
           }
-          
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Job updated"
+          },
+          "404": {
+            "description": "Job not found"
+          }
         }
-      },
+      }
       
-      "job": {
-        "type": "object",
-        "properties": {
-          "JobName": {
+    },
+    "/jobs/delete/{id}":{
+      "delete": {
+        "summary": "Delete Job by ID",
+        "description": "Delete Job by ID",
+        "tags": ["Jobs"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Job to delete",
+            "required": true,
             "type": "string"
-          },
-          "Description": {
-            "type": "string"
-          },
-          "Picture": {
-            "type": "string",
-            "example":"Job picture"
           }
-          
+        ],
+        "responses": {
+          "204": {
+            "description": "Job deleted"
+          },
+          "404": {
+            "description": "Job not found"
+          }
+        }
+      }
+    },
+    "/jobs/getbyName/{JobName}":{
+      "get": {
+        "summary": "Get  Job by jobname",
+        "description": "Get Job by  jobname",
+        "tags": ["Jobs"],
+        "parameters": [
+          {
+            "name": "JobName",
+            "in": "path",
+            "description": "Name of Job to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Employee not found"
+          }
+        }
+      }
+    },
+    "/Jobs/getbyId/{id}":{
+      "get": {
+        "summary": "Get a Job by Id",
+        "description": "Get a Job by Id",
+        "tags": ["Jobs"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the Job to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Job not found"
+          }
+        }
+      }
+    },
+    "/Booking/bookings/{id}": {
+      "post": {
+        "summary": "Create a new booking",
+        "description": "Create a new booking",
+        "tags": ["Booking"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of Employee to book",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            },
+            "required": true,
+            "description": "Booking details"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Booking created successfully"
+          }
+        }
+      }
+    },
+    "/Booking/getAllBookings": {
+      "get": {
+        "summary": "Get all bookings",
+        "description": "Retrieve all bookings",
+        "tags": ["Booking"],
+        "parameters": [
+          {
+            "description": "Get all Bookings",
+            "schema": {
+              "$ref": "#/definitions/Booking"
+          }
+          }
+        ],
+        
+        "responses": {
+          "200": {
+            "description": "Bookings retrieved successfully"
+          }
+        }
+      }
+    },
+    "/Booking/deleteBooking/{id}": {
+      "delete": {
+        "summary": "Delete a booking by ID",
+        "description": "Delete a booking by ID",
+        "tags": ["Booking"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of booking to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Booking deleted successfully"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        }
+      }
+    },
+    "/Booking/getBookingById/{id}": {
+      "get": {
+        "summary": "Get a Booking by Id",
+        "description": "Get a Booking by Id",
+        "tags": ["Booking"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the Booking to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
         }
       }
     }
+  },
+  "definitions": {
+    "RegisterData": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "example": "user"
+        },
+        "email": {
+          "type": "string",
+          "example": "email@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "VerifyAccountData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "email@example.com"
+        },
+        "otp": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "LoginData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "email@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "RequestResetPasswordData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "email@example.com"
+        }
+      }
+    },
+    "ResetPasswordData": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "string"
+        },
+        "newPassword": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "employee": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "string"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "string"
+        },
+        "email": {
+          "type": "string",
+          "example": "string"
+        },
+        "phone": {
+          "type": "string",
+          "example": "string"
+        },
+        "idCard": {
+          "type": "string",
+          "example": "string"
+        },
+        "JobName": {
+          "type": "string",
+          "example": "string"
+        },
+        "experience": {
+          "type": "string",
+          "example": "string"
+        },
+        "min_salary": {
+          "type": "string",
+          "example": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pending", "Retired", "Hired"],
+          "default": "Pending"
+        },
+        "profilePicture": {
+          "type": "object"
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "format": "date",
+          "example": "2000-01-01"
+        }
+      }
+    },
+    "Booking": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string",
+          "example": "string"
+        },
+        "Email": {
+          "type": "string",
+          "example": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "Address": {
+          "type": "string"
+        },
+        "householdSize": {
+          "type": "string"
+        },
+        "idCard": {
+          "type": "string"
+        },
+        "AdditionalInformation": {
+          "type": "string"
+        }
+      }
+    },
+    "job": {
+      "type": "object",
+      "properties": {
+        "JobName": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Picture": {
+          "type": "object",
+          "example":"Job picture"
+        }
+        
+      }
+    }
+},
+"Booking": {
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "Address": {
+      "type": "object",
+      "example":"Job picture"
+    },
+    "householdSize": {
+      "type": "string"
+    },
+    "idCard": {
+      "type": "string"
+    },
+    "AdditionalInformation": {
+      "type": "string"
+    }
+    
+    
   }
+}
+}
+
+  

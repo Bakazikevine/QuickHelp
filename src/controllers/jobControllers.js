@@ -66,8 +66,8 @@ const getJobByNameController = async (req, res) => {
     }
 
     res.status(200).send({
-      success: true,
-      data: job,
+      message: "Jobs according to name",
+      data:job,
     });
   } catch (error) {
     console.log(error);
@@ -152,29 +152,22 @@ const deleteJobController = async (req, res) => {
     });
   }
 };
-// UPDATE A JOB
+//UPDATE JOB
 const updateJobController = async (req, res) => {
   try {
     const { id } = req.params;
     const { JobName, Description } = req.body;
-    let Picture;
+    let Picture = {};
+
     if (req.file) {
-      try {
-        const result = await cloudinary.uploader.upload(req.file.path);
-        Picture = {
-          public_id: result.public_id,
-          asset_id: result.asset_id,
-          url: result.secure_url
-        };
-      } catch (error) {
-        console.error("Cloudinary upload error:", error);
-        return res.status(500).send({
-          success: false,
-          message: "Failed to upload picture to Cloudinary",
-          error,
-        });
-      }
+      const result = await cloudinary.uploader.upload(req.file.path);
+      Picture = {
+        public_id: result.public_id,
+        asset_id: result.asset_id,
+        url: result.secure_url
+      };
     }
+
     const job = await jobs.findById(id);
     if (!job) {
       return res.status(404).send({
@@ -182,11 +175,13 @@ const updateJobController = async (req, res) => {
         message: "Job not found",
       });
     }
+
     job.JobName = JobName || job.JobName;
     job.Description = Description || job.Description;
-    if (Picture) {
+    if (Object.keys(Picture).length !== 0) { 
       job.Picture = Picture;
     }
+
     await job.save();
 
     res.status(200).send({

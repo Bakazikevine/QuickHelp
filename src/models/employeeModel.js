@@ -26,7 +26,7 @@ const EmployeeSchema = new Schema({
          required:true
      },
      JobName: {
-        type: Schema.Types.ObjectId,
+        type:String,
         ref: 'job',
         required: true,
     },
