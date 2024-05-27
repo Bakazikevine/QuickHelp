@@ -24,12 +24,12 @@ const BookingSchema = new mongoose.Schema({
     required: true
   },
   idCard: {
-    type: [String],
+    type: String,
     required: true
   },
   AdditionalInformation: {
-    type: String,
-    required: false
+    type: [String],
+    required:true
   }
 }, { timestamps: true }); 
 
