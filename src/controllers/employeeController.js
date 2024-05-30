@@ -66,7 +66,7 @@ const employeeController = {
         message: "Employees should be 18 years of age and above"
       });
     }
-    const addedEmployee = await Employee.create({
+    let addedEmployee = await Employee.create({
       firstName,
       lastName,
       email,
@@ -79,6 +79,8 @@ const employeeController = {
       profilePicture,
       dateOfBirth
     });
+    
+
     res.status(201).json({ success: true, data: addedEmployee });
   }),
   // GET ALL EMPLOYEES

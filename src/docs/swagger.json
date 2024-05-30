@@ -129,15 +129,6 @@
         "summary": "User Logout",
         "description": "Logout user",
         "tags": ["Authentication"],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "token",
-            "type": "string",
-            "required": true,
-            "description": "Authentication token received during login"
-          }
-        ],
         "responses": {
           "200": {
             "description": "User logged out successfully"
@@ -211,7 +202,7 @@
             "in": "formData",
             "description": "status",
             "enum": ["Pending", "Retired", "Hired"],
-            "default": "Retired",
+            "default": "Pending",
             "type": "string"
           },
           {

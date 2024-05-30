@@ -270,7 +270,7 @@ const resetPasswordController = async (req, res) => {
           success: false,
           message: "Error in password reset",
           error
-      });
+      }); 
   }
 };
 const logoutController = (req, res) => {
