@@ -129,6 +129,14 @@
         "summary": "User Logout",
         "description": "Logout user",
         "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "path",
+            "description": "Token",
+            "required": true,
+            "type": "string"
+          }],
         "responses": {
           "200": {
             "description": "User logged out successfully"
