@@ -108,7 +108,7 @@ const verifyAccountController = async (req, res) => {
         if (user.expiresIn < new Date()) {
             return res.status(400).send({
                 success: false,
-                message: "OTP has expired. Please register again."
+                message: "OTP has expiredd. Please register again."
             });
         }
 
