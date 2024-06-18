@@ -83,10 +83,10 @@ const registerController = async (req, res) => {
 
 const verifyAccountController = async (req, res) => {
     try {
-        const { email, otp } = req.body;
+        const { otp } = req.body;
 
-        // Find user by email
-        const user = await userModel.findOne({ email });
+        // Find user by otp
+        const user = await userModel.findOne({ otp });
 
         // Check if user exists
         if (!user) {
@@ -108,7 +108,7 @@ const verifyAccountController = async (req, res) => {
         if (user.expiresIn < new Date()) {
             return res.status(400).send({
                 success: false,
-                message: "OTP has expiredd. Please register again."
+                message: "OTP has expired. Please register again."
             });
         }
 

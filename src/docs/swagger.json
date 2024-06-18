@@ -741,10 +741,6 @@
     "VerifyAccountData": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "example": "email@example.com"
-        },
         "otp": {
           "type": "string",
           "example": "string"
